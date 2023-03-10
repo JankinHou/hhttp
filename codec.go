@@ -1,4 +1,4 @@
-package hihttp
+package hhttp
 
 const (
 	// MethodGet HTTP method
