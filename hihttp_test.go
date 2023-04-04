@@ -41,7 +41,7 @@ func TestGet(t *testing.T) {
 		t.Error(3, err)
 	}
 	// end
-	t.Log(4, string(res))
+	t.Log(4, string(res.Body))
 }
 
 func TestPost(t *testing.T) {
@@ -52,7 +52,7 @@ func TestPost(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log(string(res))
+	t.Log(string(res.Body))
 	//
 	// New().Post(context.Background(), "http://127.0.0.1:8080/test/login", NewFormPayload(map[string]interface{}{
 	// 	"user_name": "yumontime", "password": "123123",
@@ -70,7 +70,7 @@ func TestPut(t *testing.T) {
 		t.Error(err)
 	}
 
-	t.Log(string(res))
+	t.Log(string(res.Body))
 }
 
 func TestDelete(t *testing.T) {
@@ -81,7 +81,7 @@ func TestDelete(t *testing.T) {
 		t.Error(err)
 	}
 
-	t.Log(string(res))
+	t.Log(string(res.BodyString()))
 }
 
 func TestPatch(t *testing.T) {
@@ -92,7 +92,7 @@ func TestPatch(t *testing.T) {
 		t.Error(err)
 	}
 
-	t.Log(string(res))
+	t.Log(string(res.Body))
 }
 
 func TestGET(t *testing.T) {
@@ -100,7 +100,7 @@ func TestGET(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log(string(res))
+	t.Log(string(res.Body))
 }
 
 // TestTimeout 请求超时
@@ -113,7 +113,7 @@ func TestTimeout(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log(string(res1))
+	t.Log(string(res1.Body))
 
 	// 2. 将传入的ctx本身设置上超时时间
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -123,7 +123,7 @@ func TestTimeout(t *testing.T) {
 		t.Error(err)
 	}
 
-	t.Log(string(res2))
+	t.Log(string(res2.Body))
 }
 
 // TestRetry 重试
@@ -139,7 +139,7 @@ func TestRetry(t *testing.T) {
 		t.Error(err)
 	}
 	en := time.Now().Unix()
-	t.Log(string(res1), en-st)
+	t.Log(string(res1.Body), en-st)
 	// 如果无需重试，3秒后超时，则en-st = 3
 	// 如果重试1次，3秒后超时，重试又3秒，因此en-st=6
 }

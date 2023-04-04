@@ -7,11 +7,12 @@ import (
 )
 
 type hiclient struct {
-	client     *http.Client
-	opt        Options
-	statusCode int
+	client *http.Client
+	opt    Options
 }
 type RetryErrorFunc func(ctx context.Context, r *Request) error
+
+type Header map[string][]string
 
 var defaultTrimChars = string([]byte{
 	'\t', // Tab.
@@ -51,11 +52,13 @@ func (r *Request) SetHeader(key, value string) *Request {
 	return r
 }
 
-// SetHeaders 设置header参数 map[string]string{}
-// 例如: c.Headers(map[string]string{"key":"value"})
-func (r *Request) SetHeaders(args map[string]string) *Request {
-	for k, v := range args {
-		r.header.Add(k, v)
+// SetHeaders 设置header参数 Header
+// 例如: c.Headers(header)
+func (r *Request) SetHeaders(headers Header) *Request {
+	for k, header := range headers {
+		for _, he := range header {
+			r.header.Add(k, he)
+		}
 	}
 	return r
 }
