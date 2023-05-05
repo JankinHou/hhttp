@@ -105,11 +105,11 @@ func TestGET(t *testing.T) {
 
 // TestTimeout 请求超时
 func TestTimeout(t *testing.T) {
-	urlStr := "https://127.0.0.1:8080"
+	urlStr := "http://127.0.0.1:8080/hello"
 
 	// 1. 使用WithTimeout()方法来实现超时控制
 	ctx := context.Background()
-	res1, err := New(WithRetryCount(2), WithTimeout(3*time.Second)).Get(ctx, urlStr)
+	res1, err := New().SetTimeout(time.Minute).Get(ctx, urlStr)
 	if err != nil {
 		t.Error(err)
 	}

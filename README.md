@@ -108,7 +108,18 @@ res, err := New(WithTimeout(6*time.Second)).Get(ctx, urlStr)
 ```
 ​    注意：第二种方式的优先级将优于第一种，也就是说如果两种方式同时在使用，则以传入ctx的时间为实际超时时间。
 
+> 特别说明，Go的http.Client的timeout的优先级会大于通过context设置的超时时间，因此此处说明的是只是通过context设置的超时时间。	
+
+默认的http.Client的超时时间设置的是30秒，默认的context的超时时间是5秒。一般情况下只需要按照上面的修改context的超时时间即可。如果超时时间的需求可能会超过30秒，可通过如下修改来实现
+
+```go
+New().SetTimeout(time.Minute)
+```
+
+
+
 ## 3.5请求重试
+
 hhttp集成了请求重试，如果在请求失败(含请求超时)后，可以进行请求重试，即在延时一段时间后(可以是0秒)，重新发起请求。
 ```Go
 urlStr := "https://www.houzhenkai.com"

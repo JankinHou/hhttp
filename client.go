@@ -27,7 +27,7 @@ var defaultTrimChars = string([]byte{
 })
 var client = hiclient{
 	client: &http.Client{
-		Timeout: 5 * time.Second,
+		Timeout: 30 * time.Second,
 	},
 	opt: Options{
 		retryCount: 0,
@@ -66,5 +66,11 @@ func (r *Request) SetHeaders(headers Header) *Request {
 // SetCookies 设置cookie
 func (r *Request) SetCookies(hc ...*http.Cookie) *Request {
 	r.cookies = append(r.cookies, hc...)
+	return r
+}
+
+// SetTimeout 修改http.Client的超时时间，该超时时间默认是30s，优先级大于通过context设置的超时时间
+func (r *Request) SetTimeout(t time.Duration) *Request {
+	r.client.client.Timeout = t
 	return r
 }
